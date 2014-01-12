@@ -1,0 +1,76 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="doubanFM.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="False"
+    shell:SystemTray.ForegroundColor="{StaticResource PhoneAccentColor}"
+    shell:SystemTray.BackgroundColor="Transparent"
+    xmlns:local ="clr-namespace:doubanFM"
+    xmlns:dblib="clr-namespace:doubanFMLib;assembly=doubanFMLib"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
+
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="#FFF3F1F1" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <local:ChannelsViewModel x:Key="ChannelsVM"/>
+        </Grid.Resources>
+        <TextBlock Grid.Row="0" Text="DoubanFM" Margin="6,0" Foreground="{StaticResource DoubanBrightGreen}"
+                   FontSize="{StaticResource PhoneFontSizeExtraExtraLarge}"/>
+
+
+        <phone:Pivot x:Name="myPivot" Grid.Row="1" Padding="0,-40,0,0"
+                     >
+
+            <phone:PivotItem x:Name="Channels">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Vertical">
+                        <toolkit:PhoneTextBox Foreground="{StaticResource DoubanBrightGreen}" Hint="Search" Padding="0" Margin="-12,0"  />
+                        <ProgressBar />
+                    </StackPanel>
+
+                    <phone:LongListSelector Grid.Row="1" DataContext="{StaticResource ChannelsVM}" 
+                                            ItemsSource="{Binding Channels}" 
+                                            LayoutMode="grid"
+                                            GridCellSize="147,170"
+                                            >
+                        
+                        <phone:LongListSelector.ItemTemplate>
+                            <DataTemplate>
+                                <local:WindowsPhoneControl1 />
+                            </DataTemplate>
+                        </phone:LongListSelector.ItemTemplate>
+                    </phone:LongListSelector>
+                </Grid>
+
+            </phone:PivotItem>
+            <phone:PivotItem x:Name="Cache" d:IsLocked="True">
+
+
+            </phone:PivotItem>
+            <phone:PivotItem x:Name="Account">
+            </phone:PivotItem>
+
+        </phone:Pivot>
+
+    </Grid>
+
+</phone:PhoneApplicationPage>
