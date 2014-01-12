@@ -25,52 +25,43 @@ namespace doubanFM
     {
 
         BackgroundAudioPlayer player = BackgroundAudioPlayer.Instance;
+        SearchResultVM searchVM = new SearchResultVM();
+        RecentChannelsVM recentVm = new RecentChannelsVM();
 
         public MainPage()
         {
             InitializeComponent();
+            Search.DataContext = searchVM;
+            RecentChannelsPivot.DataContext = recentVm;
+            
         }
 
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void PhoneTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            ////var c = await Douban.GetChannels() as IList<Channel>;
-            //var settings = IsolatedStorageSettings.ApplicationSettings;
-            //var c = await Douban.Authenticate("peipei.520@hotmail.com", "5201314");
-            //if (settings.Contains("user"))
-            //{
-            //    settings["user"] = c;
-            //}
-            //else
-            //{
-            //    settings.Add("user", c);
-            //}
-            //var cc = await Douban.GetChannels();
-            //var chs = new List<Channel>();
-            //foreach (var v in cc)
-            //{
-            //    if (v.channel_id != "0")
-            //    {
-            //        chs.Add(await Douban.GetChannel(c, v.channel_id));
-            //    }
-            //}
+            var s = (sender as PhoneTextBox).Text;
+            if(!string.IsNullOrEmpty(s))
+            {
+                searchVM.search(s);
+            }
+        }
 
-            //var ss=  JsonConvert.SerializeObject(chs);
-            //Debug.WriteLine(ss);
-            //StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
-            //var file = await local.CreateFileAsync("data", CreationCollisionOption.ReplaceExisting);
-            //var stream = await file.OpenStreamForWriteAsync();
-            //await stream.WriteAsync(Encoding.UTF8.GetBytes(ss.ToCharArray()), 0, Encoding.UTF8.GetByteCount(ss.ToCharArray()));
+        
 
-
-
-
-            NavigationService.Navigate(new Uri("/PlayerPage.xaml", UriKind.Relative));
+        private void PhoneTextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if(e.Key == System.Windows.Input.Key.Enter)
+            {
+                Search.Focus();
+            }
         }
 
         private void myPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            var p = sender as Pivot;
+            if(p.SelectedIndex == 0)
+            {
+                recentVm.Refresh();
+            }
         }
 
     }

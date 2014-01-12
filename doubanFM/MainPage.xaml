@@ -32,43 +32,73 @@
                    FontSize="{StaticResource PhoneFontSizeExtraExtraLarge}"/>
 
 
-        <phone:Pivot x:Name="myPivot" Grid.Row="1" Padding="0,-40,0,0"
+        <phone:Pivot x:Name="myPivot" Grid.Row="1" Padding="0,-40,0,0" SelectionChanged="myPivot_SelectionChanged"
                      >
 
             <phone:PivotItem x:Name="Channels">
                 <Grid >
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Row="0" Orientation="Vertical">
-                        <toolkit:PhoneTextBox Foreground="{StaticResource DoubanBrightGreen}" Hint="Search" Padding="0" Margin="-12,0"  />
-                        <ProgressBar />
-                    </StackPanel>
-
-                    <phone:LongListSelector Grid.Row="1" DataContext="{StaticResource ChannelsVM}" 
+                    <phone:LongListSelector Grid.Row="0"
+                                            x:Name="RecentChannelsPivot"
+                                            LayoutMode="grid"
+                                            GridCellSize="147,170"
+                                            ItemsSource="{Binding RecentChannels}"
+                                            >
+                        <phone:LongListSelector.ItemTemplate>
+                            <DataTemplate>
+                                <local:ChannelUserControl />
+                            </DataTemplate>
+                        </phone:LongListSelector.ItemTemplate>
+                    </phone:LongListSelector>
+                    <phone:LongListSelector Grid.Row="1" 
+                                            DataContext="{StaticResource ChannelsVM}" 
                                             ItemsSource="{Binding Channels}" 
                                             LayoutMode="grid"
                                             GridCellSize="147,170"
                                             >
-                        
+
                         <phone:LongListSelector.ItemTemplate>
                             <DataTemplate>
-                                <local:WindowsPhoneControl1 />
+                                <local:ChannelUserControl />
                             </DataTemplate>
                         </phone:LongListSelector.ItemTemplate>
                     </phone:LongListSelector>
                 </Grid>
 
             </phone:PivotItem>
-            <phone:PivotItem x:Name="Cache" d:IsLocked="True">
+            <phone:PivotItem x:Name="Search">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel  Orientation="Vertical">
+                        <toolkit:PhoneTextBox Foreground="{StaticResource DoubanBrightGreen}" 
+                                              Hint="Search" Padding="0" Margin="-12,0" 
+                                              LostFocus="PhoneTextBox_LostFocus"   
+                                              AcceptsReturn="False"
+                                              KeyUp="PhoneTextBox_KeyUp"/>
+                        <ProgressBar />
+                    </StackPanel>
+                    
+                    <phone:LongListSelector Grid.Row="2"
+                                            LayoutMode="grid"
+                                            GridCellSize="147,170"
+                                            ItemsSource="{Binding Channels}"
+                                            >
 
-
+                        <phone:LongListSelector.ItemTemplate>
+                            <DataTemplate>
+                                <local:ChannelUserControl />
+                            </DataTemplate>
+                        </phone:LongListSelector.ItemTemplate>
+                    </phone:LongListSelector>
+                </Grid>
             </phone:PivotItem>
-            <phone:PivotItem x:Name="Account">
-            </phone:PivotItem>
-
+            
         </phone:Pivot>
 
     </Grid>

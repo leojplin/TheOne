@@ -35,7 +35,7 @@ namespace doubanFM
             {
                 return (T)settings[key];
             }
-            throw new Exception("no such key found in settings");
+            return default(T);
         }
     }
 

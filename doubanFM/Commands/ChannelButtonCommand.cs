@@ -37,6 +37,22 @@ namespace doubanFM
             var frame = App.Current.RootVisual as PhoneApplicationFrame;
             var ch = (Channel)parameter;
             Settings.Put<Channel>("currentChannel", ch);
+            var chs = Settings.Get<List<Channel>>("recentChannels");
+            if(chs == null)
+            {
+                var c = new List<Channel>();
+                c.Add(ch);
+                Settings.Put<ICollection<Channel>>("recentChannels", c);
+            }
+            else
+            {
+                if(chs.Count >= 9)
+                {
+                    chs.RemoveAt(0);
+                }
+                chs.Add(ch);
+                Settings.Put<ICollection<Channel>>("recentChannels", chs);
+            }
             frame.Navigate(new Uri("/PlayerPage.xaml?action=" + PlayerPageAction.New + "&origin=" + PlayMode.Stream, UriKind.Relative));
         }
     }

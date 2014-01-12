@@ -10,9 +10,9 @@ using Microsoft.Phone.Shell;
 
 namespace doubanFM
 {
-    public partial class WindowsPhoneControl1 : UserControl
+    public partial class ChannelUserControl : UserControl
     {
-        public WindowsPhoneControl1()
+        public ChannelUserControl()
         {
             InitializeComponent();
         }
